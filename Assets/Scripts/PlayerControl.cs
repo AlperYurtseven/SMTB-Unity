@@ -6,7 +6,8 @@ public class PlayerControl : MonoBehaviour
 {
 
     public Rigidbody2D rb;
-    public float speed;
+    public float vertical_speed;
+    public float horizontal_speed;
 
     // Start is called before the first frame update
     void Start()
@@ -22,52 +23,48 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            MoveUp(speed);
+            MoveUp(vertical_speed);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            MoveDown(speed);
+            MoveDown(vertical_speed);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            MoveLeft(speed);
+            MoveLeft(horizontal_speed);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            MoveRight(speed);
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, 0);
+            MoveRight(horizontal_speed);
         }
         
     }
 
-    void MoveUp(float speed)
+    void MoveUp(float vertical_speed)
     {
 
-        rb.velocity = new Vector2(0, 1)*speed;
+        rb.AddForce(transform.up * vertical_speed);
 
     }
 
-    void MoveDown(float speed)
+    void MoveDown(float vertical_speed)
     {
 
-        rb.velocity = new Vector2(0, -1)*speed;
+        rb.AddForce(-transform.up * vertical_speed);
 
     }
 
-    void MoveLeft(float speed)
+    void MoveLeft(float horizontal_speed)
     {
 
-        rb.velocity = new Vector2(-1, 0)*speed;
+        rb.AddForce(-transform.right * horizontal_speed);
 
     }
 
-    void MoveRight(float speed)
+    void MoveRight(float horizontal_speed)
     {
 
-        rb.velocity = new Vector2(1, 0)*speed;
+        rb.AddForce(transform.right * horizontal_speed);
 
     }
 }
