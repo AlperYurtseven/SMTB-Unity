@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-
     public Rigidbody2D rb;
     public float vertical_speed;
     public float horizontal_speed;
+    public float max_jump_height;
+
+    public bool isGrounded;
+    public float initialJumpHeight;
 
     // Start is called before the first frame update
     void Start()
     {
-
         rb = GetComponent<Rigidbody2D>();
-        
+        isGrounded = true;
+        initialJumpHeight = 5;
+        vertical_speed = 10;
+        horizontal_speed = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
-            MoveUp(vertical_speed);
+            Jump();
         }
         else if (Input.GetKey(KeyCode.S))
         {
@@ -37,34 +41,41 @@ public class PlayerControl : MonoBehaviour
         {
             MoveRight(horizontal_speed);
         }
+
+        if (!isGrounded && transform.position.y >= initialJumpHeight + max_jump_height)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
         
-    }
-
-    void MoveUp(float vertical_speed)
-    {
-
-        rb.AddForce(transform.up * vertical_speed);
-
     }
 
     void MoveDown(float vertical_speed)
     {
-
-        rb.AddForce(-transform.up * vertical_speed);
-
+        rb.AddForce(Vector2.down * vertical_speed);
     }
 
     void MoveLeft(float horizontal_speed)
     {
-
-        rb.AddForce(-transform.right * horizontal_speed);
-
+        rb.AddForce(Vector2.left * horizontal_speed);
     }
 
     void MoveRight(float horizontal_speed)
     {
+        rb.AddForce(Vector2.right * horizontal_speed);
+    }
 
-        rb.AddForce(transform.right * horizontal_speed);
+    void Jump()
+    {
+        initialJumpHeight = transform.position.y;
+        rb.AddForce(Vector2.up * vertical_speed);
+        isGrounded = false;
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            isGrounded = true;
+        }
     }
 }

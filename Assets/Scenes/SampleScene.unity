@@ -409,8 +409,11 @@ MonoBehaviour:
   enemies: []
   platforms: []
   obstacles: []
+  backgrounds: []
   platform: {fileID: 9191462288658476026, guid: ac6258ddcf8da4c5e81d30fd0ea710ab, type: 3}
   background: {fileID: 2052547229}
+  platform_locations: []
+  bg_locations: []
 --- !u!4 &1079210887
 Transform:
   m_ObjectHideFlags: 0
@@ -727,7 +730,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7628457036582890939, guid: c8914de2856b5497dbc7aebcbf2c9c33, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7628457036582890939, guid: c8914de2856b5497dbc7aebcbf2c9c33, type: 3}
       propertyPath: m_LocalScale.y
