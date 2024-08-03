@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
+        GameObject player1 = UnityEngine.Object.Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+
     }
 
     // Update is called once per frame
@@ -34,5 +36,11 @@ public class GameManager : MonoBehaviour
 
 
         
+    }
+
+    public void spawnPlatform(GameObject platform_prefab, Vector3 create_position)
+    {
+        GameObject platform1 = UnityEngine.Object.Instantiate(platform_prefab, create_position, Quaternion.identity);
+        platforms.Add(platform1);
     }
 }
