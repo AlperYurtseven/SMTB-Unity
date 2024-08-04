@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     public TextMeshProUGUI gameOverText;
+
+    public Button restartButton;
 
     public Camera mainCamera;
 
@@ -64,6 +68,9 @@ public class GameManager : MonoBehaviour
             audioVolume = 1;
         }
 
+        restartButton.gameObject.SetActive(false);
+        restartButton.onClick.AddListener(RestartGame);
+
     }
 
     // Update is called once per frame
@@ -102,6 +109,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over");
         player1.SetActive(false);
         gameOverText.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
         gameOverText.text = "Game Over!\n Final Count: " + score.ToString();
         Time.timeScale = 0;
     }
@@ -114,4 +122,11 @@ public class GameManager : MonoBehaviour
         gameOverText.text = "Level Completed!\n Final Count: " + score.ToString();
         Time.timeScale = 0;
     }
+
+    public void RestartGame(){
+
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        Time.timeScale = 1;
+    }
+
 }
