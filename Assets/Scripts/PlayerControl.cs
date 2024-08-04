@@ -97,5 +97,10 @@ public class PlayerControl : MonoBehaviour
 
             gameManager.gameOver();
         }
+
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            gameManager.LevelCompleted();
+        }
     }
 }

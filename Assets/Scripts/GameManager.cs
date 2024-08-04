@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     public AudioSource destroySound;
 
+    public float audioVolume;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +55,14 @@ public class GameManager : MonoBehaviour
         player1 = UnityEngine.Object.Instantiate(player, new Vector3(0, -3, 0), Quaternion.identity);
 
         gameOverText.gameObject.SetActive(false);
+
+        if(PlayerPrefs.HasKey("Volume")){
+
+            audioVolume = PlayerPrefs.GetFloat("Volume");
+        }
+        else{
+            audioVolume = 1;
+        }
 
     }
 
@@ -93,6 +103,15 @@ public class GameManager : MonoBehaviour
         player1.SetActive(false);
         gameOverText.gameObject.SetActive(true);
         gameOverText.text = "Game Over!\n Final Count: " + score.ToString();
+        Time.timeScale = 0;
+    }
+
+    public void LevelCompleted(){
+
+        Debug.Log("Level Completed");
+        player1.SetActive(false);
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = "Level Completed!\n Final Count: " + score.ToString();
         Time.timeScale = 0;
     }
 }
