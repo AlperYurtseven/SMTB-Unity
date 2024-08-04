@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 9179648480659560679}
   vertical_speed: 3
-  horizontal_speed: 1
+  horizontal_speed: 5
   max_jump_height: 10
   max_horizontal_speed: 6
   isGrounded: 0

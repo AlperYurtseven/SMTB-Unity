@@ -22,7 +22,7 @@ public class PlayerControl : MonoBehaviour
         isGrounded = true;
         initialJumpHeight = 0;
         vertical_speed = 10;
-        horizontal_speed = 1;
+        horizontal_speed = 10;
         rb.isKinematic = false;
         max_jump_height = 5;
         max_horizontal_speed = 6;
