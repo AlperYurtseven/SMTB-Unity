@@ -8,6 +8,9 @@ public class PlayerControl : MonoBehaviour
     public float vertical_speed;
     public float horizontal_speed;
     public float max_jump_height;
+    public float max_horizontal_speed;
+
+    GameManager gameManager;
 
     public bool isGrounded;
     public float initialJumpHeight;
@@ -17,9 +20,17 @@ public class PlayerControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         isGrounded = true;
-        initialJumpHeight = 5;
+        initialJumpHeight = 0;
         vertical_speed = 10;
         horizontal_speed = 1;
+        rb.isKinematic = false;
+        max_jump_height = 5;
+        max_horizontal_speed = 6;
+
+        while (gameManager == null){
+            gameManager = GameObject.Find("GameManagerObj").GetComponent<GameManager>();
+        }
+
     }
 
     // Update is called once per frame
@@ -29,10 +40,10 @@ public class PlayerControl : MonoBehaviour
         {
             Jump();
         }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            MoveDown(vertical_speed);
-        }
+        // else if (Input.GetKey(KeyCode.S))
+        // {
+        //     MoveDown(vertical_speed);
+        // }
         else if (Input.GetKey(KeyCode.A))
         {
             MoveLeft(horizontal_speed);
@@ -46,7 +57,9 @@ public class PlayerControl : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
         }
-        
+
+        float clampedXVelocity = Mathf.Clamp(rb.velocity.x, -max_horizontal_speed, max_horizontal_speed);
+        rb.velocity = new Vector2(clampedXVelocity, rb.velocity.y);
     }
 
     void MoveDown(float vertical_speed)
@@ -67,8 +80,9 @@ public class PlayerControl : MonoBehaviour
     void Jump()
     {
         initialJumpHeight = transform.position.y;
-        rb.AddForce(Vector2.up * vertical_speed);
+        rb.AddForce(Vector2.up * vertical_speed, ForceMode2D.Impulse);
         isGrounded = false;
+        Debug.Log("Jumping");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -76,6 +90,12 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             isGrounded = true;
+            Debug.Log("Landed on Platform");
+        }
+
+        if (collision.gameObject.CompareTag("Lava")){
+
+            gameManager.gameOver();
         }
     }
 }

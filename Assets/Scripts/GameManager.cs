@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject background;
 
+    public TextMeshProUGUI scoreText;
+
+    public TextMeshProUGUI gameOverText;
+
+    public Camera mainCamera;
+
     GameObject player1;
     GameObject platform1;
     GameObject background1;
@@ -29,6 +36,10 @@ public class GameManager : MonoBehaviour
     public List<Vector3> bg_locations;
 
     Vector3 last_generated_platform;
+
+    public int score = 0;
+
+    public AudioSource destroySound;
 
     // Start is called before the first frame update
     void Start()
@@ -39,47 +50,15 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-        player1 = UnityEngine.Object.Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+        player1 = UnityEngine.Object.Instantiate(player, new Vector3(0, -3, 0), Quaternion.identity);
 
-        platform1 = UnityEngine.Object.Instantiate(platform, new Vector3(0, -5, 0), Quaternion.identity);
-
-        background1 = UnityEngine.Object.Instantiate(background, new Vector3(0, 0, 0), Quaternion.identity);
-
-        Debug.Log(player1.transform.position);
-
-        last_generated_platform = new Vector3(0, -5, 0);
+        gameOverText.gameObject.SetActive(false);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //GameObject player1 = GameObject.FindGameObjectsWithTag("Player")[0];
-
-        if (player1 != null)
-        {
-            if (player1.transform.position.x > last_generated_platform.x + 9)
-            {
-                last_generated_platform.x = player1.transform.position.x + 9;
-                spawnPlatform(platform, last_generated_platform);
-                spawnBackground(background, new Vector3(last_generated_platform.x, last_generated_platform.y+5, last_generated_platform.z));
-
-                platforms = GameObject.FindGameObjectsWithTag("Platform");
-                if (platforms.Length > 5)
-                {
-                    Destroy(platforms[0]);
-                }
-                backgrounds = GameObject.FindGameObjectsWithTag("BG_Image");
-                if (backgrounds.Length > 5)
-                {
-                    Destroy(backgrounds[0]);
-                }
-
-            }
-           
-
-        }
-
        
 
         
@@ -97,5 +76,23 @@ public class GameManager : MonoBehaviour
         GameObject background1 = UnityEngine.Object.Instantiate(background_prefab, create_position, Quaternion.identity);
         bg_locations.Add(create_position);
 
+    }
+
+    public void destroySoundPlay()
+    {
+        destroySound.Play();
+        Debug.Log("Sound Played");
+        
+        scoreText.text = "Count: " + (score + 1).ToString();
+        score += 1;
+    }
+
+    public void gameOver(){
+
+        Debug.Log("Game Over");
+        player1.SetActive(false);
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = "Game Over!\n Final Count: " + score.ToString();
+        Time.timeScale = 0;
     }
 }

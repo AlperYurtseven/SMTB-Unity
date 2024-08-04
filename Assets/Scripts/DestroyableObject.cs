@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyableObject : MonoBehaviour
-{
+{   
+
+    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        while (gameManager == null){
+            gameManager = GameObject.Find("GameManagerObj").GetComponent<GameManager>();
+        }
+       
         
     }
 
@@ -30,6 +36,7 @@ public class DestroyableObject : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
+            gameManager.destroySoundPlay();
             DestroyObject();
         }
 

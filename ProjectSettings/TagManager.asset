@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Platform
   - BG_Image
+  - Counter
+  - Lava
   layers:
   - Default
   - TransparentFX
