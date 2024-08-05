@@ -9,12 +9,14 @@ public class SettingsControl : MonoBehaviour
 
     public Button backButton;
     public Slider volumeSlider;
+    public Button resetButton;
     
     // Start is called before the first frame update
     void Start()
     {
         backButton.onClick.AddListener(BackToMainMenu);
         volumeSlider.onValueChanged.AddListener(ChangeVolume);
+        resetButton.onClick.AddListener(ResetGame);
 
         if (PlayerPrefs.HasKey("Volume"))
         {
@@ -43,5 +45,14 @@ public class SettingsControl : MonoBehaviour
         PlayerPrefs.SetFloat("Volume", volume);
         Debug.Log("Volume: " + volume);
         //AudioListener.volume = volume;
+    }
+
+    void ResetGame(){
+
+        if (PlayerPrefs.HasKey("Level"))
+        {
+            PlayerPrefs.DeleteKey("Level");
+        }
+
     }
 }

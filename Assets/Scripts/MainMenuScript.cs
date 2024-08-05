@@ -8,6 +8,9 @@ public class MainMenuScript : MonoBehaviour
 {
     public Button startButton;
     public Button settingsButton;
+    public Button levelsButton;
+
+    int currentLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +18,16 @@ public class MainMenuScript : MonoBehaviour
         // Add listeners in the Start method to avoid adding them multiple times
         startButton.onClick.AddListener(StartGame);
         settingsButton.onClick.AddListener(OpenSettings);
+        levelsButton.onClick.AddListener(OpenLevels);
+
+        if (PlayerPrefs.HasKey("Level"))
+        {
+            currentLevel = PlayerPrefs.GetInt("Level");
+        }
+        else
+        {
+            currentLevel = 1;
+        }
     }
 
     // Update is called once per frame
@@ -25,11 +38,17 @@ public class MainMenuScript : MonoBehaviour
 
     void StartGame()
     {
-        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        string levelToLoad = "Level" + currentLevel;
+        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
     }
 
     void OpenSettings()
     {
         SceneManager.LoadScene("SettingsScene", LoadSceneMode.Single);
+    }
+
+    void OpenLevels()
+    {
+        SceneManager.LoadScene("LevelsScene", LoadSceneMode.Single);
     }
 }

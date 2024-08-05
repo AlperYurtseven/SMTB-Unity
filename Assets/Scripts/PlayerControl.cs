@@ -82,7 +82,6 @@ public class PlayerControl : MonoBehaviour
         initialJumpHeight = transform.position.y;
         rb.AddForce(Vector2.up * vertical_speed, ForceMode2D.Impulse);
         isGrounded = false;
-        Debug.Log("Jumping");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -90,7 +89,6 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             isGrounded = true;
-            Debug.Log("Landed on Platform");
         }
 
         if (collision.gameObject.CompareTag("Lava")){
