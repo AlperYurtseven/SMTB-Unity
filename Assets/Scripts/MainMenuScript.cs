@@ -9,6 +9,7 @@ public class MainMenuScript : MonoBehaviour
     public Button startButton;
     public Button settingsButton;
     public Button levelsButton;
+    public Button exitButton;
 
     int currentLevel;
 
@@ -19,6 +20,8 @@ public class MainMenuScript : MonoBehaviour
         startButton.onClick.AddListener(StartGame);
         settingsButton.onClick.AddListener(OpenSettings);
         levelsButton.onClick.AddListener(OpenLevels);
+        exitButton.onClick.AddListener(Application.Quit);
+        
 
         if (PlayerPrefs.HasKey("Level"))
         {
