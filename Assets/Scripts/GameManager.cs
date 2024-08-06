@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
 
     public Button mainMenuButton;
 
+    public AudioSource backgroundMusic;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,6 +110,15 @@ public class GameManager : MonoBehaviour
 
         mainMenuButton.gameObject.SetActive(false);
         mainMenuButton.onClick.AddListener(MainMenu);
+
+        if(backgroundMusic.isPlaying == false){
+            backgroundMusic.Play();
+        }
+        
+        backgroundMusic.Play();
+
+        DontDestroyOnLoad(backgroundMusic);
+
 
     }
 
@@ -172,9 +183,11 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame(){
 
-        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-        Time.timeScale = 1;
+        string currentLevel_Load = "Level" + currentLevel;
 
+        SceneManager.LoadScene(currentLevel_Load, LoadSceneMode.Single);
+
+        Time.timeScale = 1;
         
     }
 
