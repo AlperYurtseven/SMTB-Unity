@@ -26,6 +26,12 @@ public class MainMenuScript : MonoBehaviour
         if (PlayerPrefs.HasKey("Level"))
         {
             currentLevel = PlayerPrefs.GetInt("Level");
+
+            if (currentLevel > 3){
+                currentLevel = 3;
+                PlayerPrefs.SetInt("Level", currentLevel);
+            }
+                
         }
         else
         {

@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI levelText;
 
+    public Button mainMenuButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +88,11 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.HasKey("Level"))
         {
             currentLevel = PlayerPrefs.GetInt("Level");
+            if (currentLevel > 3){
+                currentLevel = 3;
+                PlayerPrefs.SetInt("Level", currentLevel);
+            }
+                
         }
         else
         {
@@ -98,6 +105,9 @@ public class GameManager : MonoBehaviour
         nextLevelButton.onClick.AddListener(NextLevel);
 
         levelText.text = "Level: " + currentLevel.ToString();
+
+        mainMenuButton.gameObject.SetActive(false);
+        mainMenuButton.onClick.AddListener(MainMenu);
 
     }
 
@@ -148,7 +158,12 @@ public class GameManager : MonoBehaviour
         player1.SetActive(false);
         gameOverText.gameObject.SetActive(true);
         float final_score = (111 - time_elapsed) * score;
-        nextLevelButton.gameObject.SetActive(true);
+        if (currentLevel < 3){
+            nextLevelButton.gameObject.SetActive(true);
+        }
+        else{
+            mainMenuButton.gameObject.SetActive(true);
+        }
         gameOverText.text = "Level Completed!\n Final Score: " + final_score.ToString();
         PlayerPrefs.SetInt("Level", currentLevel + 1);
         Time.timeScale = 0;
@@ -159,6 +174,8 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         Time.timeScale = 1;
+
+        
     }
 
     public void NextLevel(){
@@ -166,6 +183,12 @@ public class GameManager : MonoBehaviour
         string next_level = "Level" + (currentLevel + 1).ToString();
 
         SceneManager.LoadScene(next_level, LoadSceneMode.Single);
+        Time.timeScale = 1;
+    }
+
+    public void MainMenu(){
+
+        SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
         Time.timeScale = 1;
     }
 
